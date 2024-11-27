@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <style>
+        /* General Styles */
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom right, #ffcc00, #d78100);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .back-home-btn {
+            position: absolute;
+            top: 100px; /* Align at the top */
+            right: 100px; /* Align to the right edge of the form */
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #333;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .back-home-btn:hover {
+            color: #ff0000;
+        }
+        .back-home-btn {
+            opacity: 0;
+            transform: translateY(-20px);
+            animation: fadeIn 0.5s forwards;
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .login-container {
+            display: flex;
+            width: 80%;
+            max-width: 900px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+            overflow: hidden;
+        }
+
+        .image-section {
+            flex: 1;
+            background-image: url('https://i.pinimg.com/736x/a0/f6/7a/a0f67a993f6b61419bb5845c674c787b.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .login-box {
+            flex: 1;
+            padding: 30px;
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            color: #ff9900;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+
+        .role-toggle {
+            display: flex;
+            position: relative;
+            width: 300px;
+            height: 50px;
+            margin: 0 auto 20px;
+            background: #f1f1f1;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .role-toggle input {
+            display: none;
+        }
+
+        .role-toggle .slider {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(to right, #ff8000, #fafe00);
+            border-radius: 25px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        #recruiter:checked ~ .slider {
+            transform: translateX(100%);
+        }
+
+        .role-toggle label {
+            flex: 1;
+            text-align: center;
+            line-height: 50px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 2;
+            position: relative;
+            user-select: none;
+            transition: color 0.3s ease;
+        }
+
+        .role-toggle label.active {
+            color: #574b32; /* Active color */
+        }
+
+        .role-toggle label.inactive {
+            color: #c1c1c1; /* Inactive color */
+        }
+
+        .input-group {
+            text-align: left;
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 14px;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            background-color: #f9f9f9;
+            box-sizing: border-box;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #ff9900;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-btn:disabled {
+            background-color: #e6b800;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button type="button" class="back-home-btn" onclick="goBackToHome()">✖</button>
+
+        <div class="login-container">
+            <div class="image-section"></div>
+            <div class="login-box">
+                <h1 id="login-title">Login as Applicant</h1>
+
+                <div class="role-toggle">
+                    <input type="radio" id="applicant" name="role" value="applicant" checked>
+                    <input type="radio" id="recruiter" name="role" value="recruiter">
+                    <div class="slider"></div>
+                    <label for="applicant">Applicant</label>
+                    <label for="recruiter">Recruiter</label>
+                </div>            
+
+                <form id="login-form">
+                    <div class="input-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="Enter your username">
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password">
+                    </div>
+                    <button type="submit" class="login-btn" id="submit-btn" disabled>Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const roleInputs = document.querySelectorAll(".role-toggle input");
+        const labels = document.querySelectorAll(".role-toggle label");
+        const loginTitle = document.getElementById("login-title");
+
+        roleInputs.forEach((input) => {
+            input.addEventListener("change", () => {
+                const selectedRole = input.value;
+
+                labels.forEach((label) => {
+                    label.classList.remove("active", "inactive");
+                    label.classList.add(label.htmlFor === selectedRole ? "active" : "inactive");
+                });
+
+                loginTitle.textContent = selectedRole === "recruiter" ? "Login as Recruiter" : "Login as Applicant";
+            });
+        });
+
+        const usernameInput = document.getElementById('username');
+        const passwordInput = document.getElementById('password');
+        const submitBtn = document.getElementById('submit-btn');
+
+        function checkFormValidity() {
+            submitBtn.disabled = !(usernameInput.value.trim() && passwordInput.value.trim());
+        }
+
+        usernameInput.addEventListener('input', checkFormValidity);
+        passwordInput.addEventListener('input', checkFormValidity);
+
+        document.getElementById("login-form").addEventListener("submit", async (event) => {
+            event.preventDefault();
+
+            const role = document.querySelector('input[name="role"]:checked').value;
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value.trim();
+
+            if (!username || !password) {
+                alert("Please enter both username and password.");
+                return;
+            }
+
+            try {
+                const response = await fetch("/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ role, username, password }),
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    if (result.role === "recruiter") {
+                        localStorage.setItem("recruiterID", result.id);
+                        window.location.href = "/recruiter_home.html";
+                    } else if (result.role === "applicant") {
+                        localStorage.setItem("applicantID", result.id);
+                        window.location.href = "/applicant_home.html";
+                    } else {
+                        alert("Invalid role. Please try again.");
+                    }
+                } else {
+                    alert(result.message || "Login failed. Please check your credentials.");
+                }
+            } catch (error) {
+                console.error("Error during login:", error);
+                alert("An error occurred during login. Please try again.");
+            }
+        });
+        
+        function goBackToHome() {
+            window.location.href = "/homepage.html"; // Redirect to the homepage
+        }
+        
+
+    </script>
+</body>
+</html>

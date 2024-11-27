@@ -1,0 +1,102 @@
+/* Global Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+/* Container */
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+header {
+    text-align: center;
+    padding: 50px;
+    background-color: #ff9800;
+    color: #fff;
+}
+
+header h1 {
+    font-size: 3em;
+    margin: 0;
+}
+
+header p {
+    font-size: 1.2em;
+}
+
+/* Register Section */
+.register-section {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.register-section h2 {
+    font-size: 2em;
+    color: #fb6e03;
+}
+
+.register-section p {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+}
+
+.roles {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.role {
+    background-color: #ffc107;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    text-align: center;
+}
+
+.role h3 {
+    color: #fff;
+    font-size: 1.8em;
+}
+
+.role p {
+    color: #fff;
+    font-size: 1.1em;
+}
+
+.role .btn {
+    display: inline-block;
+    background-color: #ff5722;
+    color: #fff;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 15px;
+    font-size: 1.1em;
+}
+
+.role .btn:hover {
+    background-color: #e64a19;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #ff9800;
+    color: #fff;
+    margin-top: 50px;
+}
+
+footer p {
+    font-size: 1em;
+}
+

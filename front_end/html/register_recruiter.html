@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Step Registration</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+        }
+
+        .container {
+            position: relative;
+            background: white;
+            padding: 2em;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            max-width: 500px;
+            width: 100%;
+        }
+
+        .back-home-btn {
+            position: absolute;
+            top: 10px; /* Align at the top */
+            right: 10px; /* Align to the right edge of the form */
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #333;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .back-home-btn:hover {
+            color: #ff0000;
+        }
+
+
+        .progress-container {
+            position: relative;
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            width: 0;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            transition: width 0.4s ease-in-out;
+        }
+
+        h1 {
+            font-size: 1.5rem;
+            margin-bottom: 1em;
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 0.5em;
+            font-weight: bold;
+            color: #555;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.75em;
+            margin-bottom: 1em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        .step {
+            display: none;
+        }
+
+        .step.active {
+            display: block;
+        }
+
+        .navigation-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        /* Align the "Next" button to the right for the first step */
+        .navigation-first-step {
+            display: flex;
+            justify-content: flex-end; /* Aligns the button to the right */
+        }
+
+        .navigation-buttons button {
+            width: 48%;
+            padding: 0.75em 1.5em;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+        }
+
+        .next-btn {
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+        }
+
+        .next-btn:hover {
+            background: linear-gradient(to right, #00f2fe, #4facfe);
+        }
+
+        .back-btn {
+            background-color: #f44336;
+        }
+
+        .back-btn:hover {
+            background-color: #d32f2f;
+        }
+
+        .submit-btn {
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            width: 100%;
+            padding: 0.75em 1.5em;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            color: white;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(to right, #00f2fe, #4facfe);
+        }
+
+        .scrollable-summary {
+            max-height: 300px; /* Adjust as needed for your design */
+            overflow-y: auto;
+            padding: 1em;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f9f9f9;
+        }
+
+        .form-heading {
+            text-align: center;
+            margin-bottom: 20px; /* Add spacing between the heading and the form content */
+        }
+
+        .form-heading h1 {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #555;
+            margin: 0; /* Remove default margin */
+        }
+
+
+    </style>
+    <script>
+        function goBackToHome() {
+            window.location.href = "/homepage.html"; // Redirect to the homepage
+        }
+        
+        let currentStep = 1;
+
+        function validateCitizenID() {
+            const citizenID = document.getElementById("citizenID").value.replace(/-/g, "").trim();
+            if (citizenID.length !== 13 || isNaN(citizenID)) {
+                alert("Citizen ID number must be exactly 13 digits.");
+                return false;
+            }
+            return true;
+        }
+
+        function validateCreditCard() {
+            const cardNumber = document.getElementById("cardNumber").value.replace(/-/g, "").trim();
+            if (cardNumber.length !== 16 || isNaN(cardNumber)) {
+                alert("Credit card number must be exactly 16 digits.");
+                return false;
+            }
+            return true;
+        }
+
+        function validatePhoneNumber() {
+            const contact = document.getElementById("contact").value.replace(/-/g, "").trim();
+            if (contact.length !== 10 || isNaN(contact)) {
+                alert("Phone number must be exactly 10 digits.");
+                return false;
+            }
+            return true;
+        }
+
+
+        function validateExpirationDate(input) {
+            const value = input.value.trim();
+            if (value.length !== 5 || !value.includes("/")) {
+                alert("Please enter a valid expiration date in the format MM/YY.");
+                return false;
+            }
+
+            const [month, year] = value.split("/");
+            const monthInt = parseInt(month, 10);
+
+            if (isNaN(monthInt) || monthInt < 1 || monthInt > 12) {
+                alert("Please enter a valid month (01-12).");
+                return false;
+            }
+
+            return true;
+        }
+
+        function validatePasswords() {
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirmPassword").value;
+
+            if (password !== confirmPassword) {
+                alert("Passwords do not match. Please try again.");
+                return false;
+            }
+            return true;
+        }
+
+        function validateCompanyWebsite() {
+            const companyWebsiteField = document.getElementById("companyWebsite");
+            const websiteValue = companyWebsiteField.value.trim();
+            
+            // Basic URL format check
+            const urlPattern = /^(https?:\/\/)?([\w\d\-]+\.)+\w{2,}(\/[\w\d#?&=]*)?$/;
+
+            if (!websiteValue) {
+                // Field is empty
+                alert("Company website is required.");
+                companyWebsiteField.focus();
+                return false;
+            } else if (!urlPattern.test(websiteValue)) {
+                // Invalid URL format
+                alert("Please enter a valid company website (e.g., https://example.com).");
+                companyWebsiteField.focus();
+                return false;
+            }
+            return true; // Validation passed
+        }
+
+
+        function validateRequiredFields() {
+            const currentStepDiv = document.querySelector(`.step.active`);
+            const requiredFields = currentStepDiv.querySelectorAll("input[required], textarea[required], select[required]");
+
+            for (const field of requiredFields) {
+                // Ensure the field is visible
+                field.scrollIntoView({ behavior: "smooth", block: "center" });
+
+                if (!field.value.trim()) {
+                    alert(`Please fill in the ${field.previousElementSibling.textContent.trim()} field.`);
+                    field.focus();
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        function showStep(step) {
+            document.querySelectorAll(".step").forEach((stepDiv, index) => {
+                stepDiv.classList.toggle("active", index + 1 === step);
+            });
+            document.getElementById("progressBar").style.width = `${(step - 1) * 20}%`;
+        }
+
+        function togglePasswordVisibility() {
+            const passwordField = document.getElementById("summaryPassword");
+            const eyeIcon = document.getElementById("eyeIcon");
+
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                eyeIcon.textContent = "🙈"; // Change to 'eye closed' icon
+            } else {
+                passwordField.type = "password";
+                eyeIcon.textContent = "👁️"; // Change to 'eye open' icon
+            }
+        }
+
+        function populateSummary() {
+            const fields = [
+                "citizenID", "username", "password", "cardNumber", "cardHolderName", "expireDate", "ccv",
+                "fname", "lname", "contact", "address", "companyName", "companyWebsite",
+                "companyIndustry", "companyDescription"
+            ];
+
+            fields.forEach((id) => {
+                const element = document.getElementById(id);
+                if (!element) {
+                    console.error(`Element with id "${id}" not found.`);
+                } else {
+                    if (id === "password") {
+                        // Populate password field in blinded format
+                        document.getElementById("summaryPassword").value = element.value;
+                    } else {
+                        const summaryElement = document.getElementById(`summary${id.charAt(0).toUpperCase() + id.slice(1)}`);
+                        if (summaryElement) {
+                            summaryElement.textContent = element.value || "N/A";
+                        } else {
+                            console.error(`Summary element for id "${id}" not found.`);
+                        }
+                    }
+                }
+            });
+        }
+
+        // Attach the togglePasswordVisibility function to the button
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("togglePasswordVisibility").addEventListener("click", togglePasswordVisibility);
+        });
+
+        function nextStep() {
+            // Get the currently active step
+            const currentStepDiv = document.querySelector(".step.active");  
+            // Validate required fields before proceeding
+            const requiredFields = currentStepDiv.querySelectorAll("input[required], textarea[required], select[required]");
+            for (const field of requiredFields) {
+                if (!field.checkValidity()) {
+                    alert(`Please fill in the ${field.previousElementSibling.textContent.trim()} field.`);
+                    field.focus();
+                    return; // Stop if a required field is invalid
+                }
+            }
+
+            // Validate citizenID before proceeding from Step 1
+            if (currentStep === 1) {
+                if (!validateCitizenID()) {
+                    return; // Stop if citizenID do not match the format
+                }
+            }
+
+            // Validate passwords before proceeding from Step 2
+            if (currentStep === 2) {
+                if (!validatePasswords()) {
+                    return; // Stop if passwords do not match
+                }
+            }
+
+            // Validate expiration date in Step 3
+            if (currentStep === 3) {
+                const expireDateInput = document.getElementById("expireDate");
+                if (!validateExpirationDate(expireDateInput) || !validateCreditCard()) {
+                    return; // Stop if validation fails
+                }
+
+                if (!validateExpirationDate(expireDateInput)) {
+                    return; // Stop if expiration date is invalid
+                }
+            }
+
+            // Validate phone number in Step 4
+            if (currentStep === 4) {
+                if (!validatePhoneNumber()) {
+                    return; // Stop if phone number is invalid
+                }
+            }
+
+            if (currentStep === 5) {
+                if (!validateCompanyWebsite()) {
+                    return; // Stop if the website is invalid
+                }
+                populateSummary();
+            }
+
+            if (currentStep < 6) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        }
+
+        function formatInput(input, pattern) {
+            const value = input.value.replace(/\D/g, ""); // Remove all non-numeric characters
+            let formattedValue = "";
+            let i = 0;
+
+            for (const char of pattern) {
+                if (char === "X" && i < value.length) {
+                    formattedValue += value[i++];
+                } else if (char !== "X") {
+                    formattedValue += char;
+                }
+            }
+            input.value = formattedValue;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const registrationForm = document.getElementById("registrationForm");
+
+            if (!registrationForm) {
+                console.error("Form with ID 'registrationForm' not found.");
+                return;
+            }
+
+            registrationForm.onsubmit = async function (event) {
+                event.preventDefault();
+
+                const formData = new FormData(event.target);
+                const data = Object.fromEntries(formData.entries());
+
+                data.cardNumber = data.cardNumber.replace(/-/g, "");
+                data.contact = data.contact.replace(/-/g, "").trim();
+
+                if (data.expireDate && data.expireDate.includes("/")) {
+                const [month, year] = data.expireDate.split("/");
+                data.expireMonth = month;
+                data.expireYear = `20${year}`;
+                delete data.expireDate;
+                } else {
+                alert("Invalid expiration date format. Please use MM/YY.");
+                return;
+                }
+
+                try {
+                    const response = await fetch("/register/recruiter-full", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(data),
+                    });
+
+                    const result = await response.json();
+
+                    if (response.ok) {
+                            alert("Registration successful!");
+                            window.location.href = `/applicant_home.html?username=${encodeURIComponent(data.username)}`;
+                    } else {
+                        alert(result.error || "Registration failed. Please try again.");
+                    }
+                } catch (error) {
+                    console.error("Error submitting form:", error);
+                    alert("An error occurred. Please try again.");
+                }
+            };
+        });
+    </script>
+</head>
+<body>
+    <form id="registrationForm">
+        <div class="container">
+            <div class="form-heading">
+                <h1>Recruiter Registration Form</h1>
+            </div>
+
+            <!-- Back to Home Button -->
+            <button type="button" class="back-home-btn" onclick="goBackToHome()">✖</button>
+
+            <div class="progress-container">
+                <div id="progressBar" class="progress-bar"></div>
+            </div>
+
+            <!-- Step 1: Verify Citizen ID -->
+            <div class="step active" data-step="1">
+                <h1>Step 1: Verify Citizen ID</h1>
+                <label for="citizenID">Citizen ID:</label>
+                <input type="text" id="citizenID" name="citizenID" required placeholder="x-xxxx-xxxxx-xx-x"
+                    oninput="formatInput(this, 'X-XXXX-XXXXX-XX-X')">
+                <div class="navigation-buttons navigation-first-step">
+                    <button type="button" class="next-btn" onclick="nextStep()">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Create Account -->
+            <div class="step" data-step="2">
+                <h1>Step 2: Create Account</h1>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required placeholder="Choose a username">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required placeholder="Choose a password">
+                <label for="confirmPassword">Confirm Password:</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" required placeholder="Confirm your password">
+                <div class="navigation-buttons">
+                    <button type="button" class="back-btn" onclick="prevStep()">Back</button>
+                    <button type="button" class="next-btn" onclick="nextStep()">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Payment Information -->
+            <div class="step" data-step="3">
+                <h1>Step 3: Payment Information</h1>
+                <label for="cardNumber">Credit Card Number:</label>
+                <input type="text" id="cardNumber" name="cardNumber" required placeholder="xxxx-xxxx-xxxx-xxxx"
+                    oninput="formatInput(this, 'XXXX-XXXX-XXXX-XXXX')">
+                <label for="cardHolderName">Credit Card Holder Name:</label>
+                <input type="text" id="cardHolderName" name="cardHolderName" required placeholder="Type your card holder name">
+                <label for="expireDate">Expiration Date:</label>
+                <input type="text" id="expireDate" name="expireDate" required placeholder="MM/YY"
+                    oninput="formatInput(this, 'XX/XX')">
+                <label for="ccv">CCV:</label>
+                <input type="text" id="ccv" name="ccv" required placeholder="Enter CCV" maxlength="3">
+                <div class="navigation-buttons">
+                    <button type="button" class="back-btn" onclick="prevStep()">Back</button>
+                    <button type="button" class="next-btn" onclick="nextStep()">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Personal Details -->
+            <div class="step" data-step="4">
+                <h1>Step 4: Personal Details</h1>
+                <label for="fname">First Name:</label>
+                <input type="text" id="fname" name="fname" required placeholder="Enter your first name">
+                <label for="lname">Last Name:</label>
+                <input type="text" id="lname" name="lname" required placeholder="Enter your last name">
+                <label for="contact">Contact Number:</label>
+                <input type="text" id="contact" name="contact" required placeholder="xxx-xxx-xxxx"
+                    oninput="formatInput(this, 'XXX-XXX-XXXX')">
+                <label for="address">Address:</label>
+                <textarea id="address" name="address" required placeholder="Enter your address"></textarea>
+                <div class="navigation-buttons">
+                    <button type="button" class="back-btn" onclick="prevStep()">Back</button>
+                    <button type="button" class="next-btn" onclick="nextStep()">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 5: Company Profile -->
+            <div class="step" data-step="5">
+                <h1>Step 5: Company Profile</h1>
+                <label for="companyName">Company Name:</label>
+                <input type="text" id="companyName" name="companyName" required placeholder="Enter company name">
+                <label for="companyWebsite">Company Website:</label>
+                <input type="url" id="companyWebsite" name="companyWebsite" placeholder="https://example.com">
+                <label for="companyIndustry">Industry:</label>
+                <select id="companyIndustry" name="companyIndustry" required>
+                    <option value="" disabled selected>Select an industry</option>
+                    <option value="Technology">Technology</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Education">Education</option>
+                    <option value="Retail">Retail</option>
+                    <option value="Manufacturing">Manufacturing</option>
+                    <option value="Construction">Construction</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Real Estate">Real Estate</option>
+                    <option value="Hospitality">Hospitality</option>
+                </select>
+                <label for="companyDescription">Company Description:</label>
+                <textarea id="companyDescription" name="companyDescription" required placeholder="Brief description about the company"></textarea>
+                <div class="navigation-buttons">
+                    <button type="button" class="back-btn" onclick="prevStep()">Back</button>
+                    <button type="button" class="next-btn" onclick="nextStep()">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 6: Confirmation -->
+            <div class="step" data-step="6">
+                <h1>Step 6: Confirmation</h1>
+                <p>Please review your details before submitting:</p>
+                <div id="summary" class="scrollable-summary">
+                    <p><strong>Citizen ID:</strong> <span id="summaryCitizenID"></span></p>
+                    <p><strong>Username:</strong> <span id="summaryUsername"></span></p>
+                    <p><strong>Password:</strong></p>
+                    <div style="position: relative; width: 100%; margin-bottom: 1em;">
+                        <input type="password" id="summaryPassword" readonly style="width: 70%; padding-right: 2.5em;">
+                        <button type="button" id="togglePasswordVisibility" style="position: absolute; right: 0.5em; top: 50%; transform: translateY(-50%); background: none; border: none; cursor: pointer;">
+                            <span id="eyeIcon" style="font-size: 24px; vertical-align: 20px;">👁️</span>
+                        </button>
+                    </div>
+                    <p><strong>Credit Card Number:</strong> <span id="summaryCardNumber"></span></p>
+                    <p><strong>Card Holder Name:</strong> <span id="summaryCardHolderName"></span></p>
+                    <p><strong>Expiration Date:</strong> <span id="summaryExpireDate"></span></p>
+                    <p><strong>CCV:</strong> <span id="summaryCcv"></span></p>
+                    <p><strong>First Name:</strong> <span id="summaryFname"></span></p>
+                    <p><strong>Last Name:</strong> <span id="summaryLname"></span></p>
+                    <p><strong>Contact Number:</strong> <span id="summaryContact"></span></p>
+                    <p><strong>Address:</strong> <span id="summaryAddress"></span></p>
+                    <p><strong>Company Name:</strong> <span id="summaryCompanyName"></span></p>
+                    <p><strong>Company Website:</strong> <span id="summaryCompanyWebsite"></span></p>
+                    <p><strong>Industry:</strong> <span id="summaryCompanyIndustry"></span></p>
+                    <p><strong>Company Description:</strong> <span id="summaryCompanyDescription"></span></p>
+                </div>
+                <div class="navigation-buttons">
+                    <button type="button" class="back-btn" onclick="prevStep()">Back</button>
+                    <button type="submit" class="submit-btn">Submit</button>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</body>
+</html>

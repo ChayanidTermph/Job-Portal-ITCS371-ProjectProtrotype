@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Job Announcement</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #ffcc33, #ff9900);
+        }
+
+        .container {
+            max-width: 80%;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .back-home-btn {
+            position: absolute;
+            top: 10px; /* Align at the top */
+            right: 10px; /* Align to the right edge of the form */
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #333;
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+
+        .back-home-btn:hover {
+            color: #ff0000;
+        }
+
+        header h1 {
+            text-align: center;
+            color: #333;
+            font-size: 2rem;
+        }
+
+        .progress-container {
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            height: 4px; /* Thinner line for a minimal look */
+            background: #f0e68c;
+            border-radius: 5px;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #ffa500;
+            border-radius: 5px;
+            width: 33%;
+            transition: width 0.2s ease; /* Faster transition for tabs */
+        }
+
+        .progress-steps {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 5px; /* Closer to the progress bar */
+        }
+
+        .progress-step {
+            font-size: 0.8rem; /* Smaller font for a minimal look */
+            color: #555;
+        }
+
+        .progress-step.active {
+            color: #ffa500;
+            font-weight: bold;
+        }
+
+        .form-step {
+            display: none;
+            animation: fadeIn 0.2s ease; /* Reduced animation delay */
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        label {
+            font-weight: bold;
+            margin: 10px 0 5px;
+            display: block;
+            color: #555;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        textarea {
+            resize: none;
+        }
+
+        button {
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            color: white;
+            background: #ffa500;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #ff8c00;
+        }
+
+        .back-btn {
+            background: #bbb;
+            color: white;
+        }
+
+        .back-btn:hover {
+            background: #999;
+        }
+
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: #4caf50;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Salary Slider */
+        .salary-slider {
+            position: relative;
+            width: 80%; /* Slider is smaller than the form width */
+            margin: 0 auto 20px auto;
+            text-align: center;
+        }
+
+        .salary-slider input[type="range"] {
+            width: 100%;
+            appearance: none;
+            background: #ddd;
+            height: 3px;
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+            transition: background 0.2s ease;
+            margin-top: 20px; /* Space from the current salary value */
+        }
+
+        .salary-slider input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 15px;
+            height: 15px;
+            background: #ffa500;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .salary-slider input[type="range"]::-webkit-slider-thumb:hover {
+            background: #ff8c00;
+        }
+
+        .current-salary {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #ffa500;
+            margin-bottom: 10px; /* Place above the slider */
+        }
+
+        .salary-indicators {
+            position: relative;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 10px; /* Space from the slider line */
+        }
+
+        .salary-indicators .start,
+        .salary-indicators .end {
+            position: relative;
+        }
+
+        /* Buttons Alignment */
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            color: white;
+            background: #ffa500;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        button:hover {
+            background: #ff8c00;
+        }
+
+        .back-btn {
+            background: #bbb;
+            color: white;
+        }
+
+        .back-btn:hover {
+            background: #999;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Create Job Announcement</h1>
+        </header>
+
+        <!-- Back to Home Button -->
+        <button type="button" class="back-home-btn" onclick="goToRegisterHome()">✖</button>
+
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 33%;"></div>
+            </div>
+            <div class="progress-steps">
+                <span class="progress-step active" data-step="1">Job Details</span>
+                <span class="progress-step" data-step="2">Location & Education</span>
+                <span class="progress-step" data-step="3">Category & Confirmation</span>
+            </div>
+        </div>
+
+        <!-- Form Content -->
+        <form id="job-form">
+            <!-- Step 1: Job Details -->
+            <div id="step-1" class="form-step active">
+                <label for="j_title">Job Title</label>
+                <input type="text" id="j_title" name="j_title" maxlength="100" placeholder="Enter job title" required>
+            
+                <label for="j_salary">Salary</label>
+                <div class="salary-slider">
+                    <div id="current-salary" class="current-salary">$50,000</div>
+                    <input type="range" id="j_salary" name="j_salary" min="0" max="500000" step="1000" value="50000" oninput="updateSalaryValue(this)">
+                    <div class="salary-indicators">
+                        <span class="start">฿0</span>
+                        <span class="end">฿500,000</span>
+                    </div>
+                </div>
+            
+                <label for="j_type">Job Type</label>
+                <select id="j_type" name="j_type" required>
+                    <option value="full-time">Full-Time</option>
+                    <option value="part-time">Part-Time</option>
+                    <option value="contract">Contract</option>
+                    <option value="casual">Casual</option>
+                </select>
+            
+                <label for="j_workexp">Work Experience (years)</label>
+                <input type="number" id="j_workexp" name="j_workexp" min="0" placeholder="Enter required work experience" required>
+            
+                <div class="button-group">
+                    <button type="button" class="continue-btn" onclick="nextStep()">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Location and Education -->
+            <div id="step-2" class="form-step">
+                <label for="j_location">Location</label>
+                <input type="text" id="j_location" name="j_location" maxlength="100" placeholder="Enter job location" required>
+
+                <label for="j_eduqualification">Job Requirements</label>
+                <textarea id="j_eduqualification" name="j_eduqualification" rows="4" placeholder="Enter required educational qualifications" required></textarea>
+
+                <div class="button-group">
+                    <button type="button" class="back-btn" onclick="prevStep()">Back</button>
+                    <button type="button" class="continue-btn" onclick="nextStep()">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Category and Confirmation -->
+            <div id="step-3" class="form-step">
+                <label for="category">Category</label>
+                <select id="category" name="category" required>
+                    <option value="Technology">Technology</option>
+                    <option value="Finance">Finance</option>
+                    <option value="Healthcare">Healthcare</option>
+                    <option value="Education">Education</option>
+                    <option value="Retail">Retail</option>
+                    <option value="Manufacturing">Manufacturing</option>
+                    <option value="Construction">Construction</option>
+                    <option value="Transportation">Transportation</option>
+                    <option value="Real Estate">Real Estate</option>
+                    <option value="Hospitality">Hospitality</option>
+                </select>
+
+                <label for="j_description">Job Description</label>
+                <textarea id="j_description" name="j_description" rows="6" placeholder="Enter detailed job description" required></textarea>
+
+                <div class="button-group">
+                    <button type="button" class="back-btn" onclick="prevStep()">Back</button>
+                    <button type="submit" class="submit-btn">Submit</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Success Message -->
+        <div id="success-popup" class="popup">
+            Job Announcement Created Successfully!
+        </div>
+    </div>
+
+    <script>
+        // Update salary value display
+        function updateSalaryValue(slider) {
+            const currentSalary = document.getElementById('current-salary');
+            const sliderValue = slider.value;
+
+            // Update the displayed salary value
+            currentSalary.textContent = `฿${parseInt(sliderValue).toLocaleString()}`;
+        }
+
+        // Manage progress bar and form steps
+        let currentStep = 1;
+
+        function validateWorkExperience() {
+            const workExpInput = document.getElementById("j_workexp");
+            const workExpValue = parseInt(workExpInput.value, 10);
+
+            if (isNaN(workExpValue) || workExpValue < 0) {
+                alert("Please enter a valid positive number for Work Experience.");
+                workExpInput.focus();
+                return false;
+            }
+            return true;
+        }
+
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progress-fill');
+            progressFill.style.width = `${currentStep * 33}%`;
+
+            const steps = document.querySelectorAll('.progress-step');
+            steps.forEach((step, index) => {
+                step.classList.toggle('active', index < currentStep);
+            });
+        }
+
+        function showStep(step) {
+            const formSteps = document.querySelectorAll('.form-step');
+            formSteps.forEach((stepDiv, index) => {
+                stepDiv.classList.toggle('active', index === step - 1);
+            });
+            updateProgress();
+        }
+
+        function nextStep() {
+            if (currentStep === 1) {
+                // Validate Work Experience before moving to the next step
+                if (!validateWorkExperience()) {
+                    return; // Stop if validation fails
+                }
+            }
+
+            if (currentStep < 3) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        }
+
+        function goToRegisterHome() {
+            window.location.href = "/recruiter_home.html"; // Redirect to the register_home page
+        }
+
+        // Form submission handler
+        const recruiterID = localStorage.getItem("recruiterID"); // Fetch recruiterID from session
+
+        document.getElementById("job-form").addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            const formData = new FormData(this);
+            const recruiterID = localStorage.getItem("recruiterID"); // Get recruiterID from localStorage
+
+            if (!recruiterID) {
+                alert("Recruiter ID is missing. Please log in again.");
+                window.location.href = "/login.html"; // Redirect to login if recruiterID is missing
+                return;
+            }
+
+            formData.append("recruiterID", recruiterID);
+
+            try {
+                const response = await fetch("/recruiter/jobs", {
+                    method: "POST",
+                    body: JSON.stringify(Object.fromEntries(formData)),
+                    headers: { "Content-Type": "application/json" },
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    alert(result.message);
+                    this.reset();
+                    window.location.href = "/recruiter_home.html"; // Redirect to the register_home page
+                } else {
+                    alert(`Error: ${result.error}`);
+                }
+            } catch (error) {
+                console.error("Error submitting job:", error);
+                alert("An error occurred while creating the job announcement.");
+            }
+        });
+
+        
+    </script>
+</body>
+</html>

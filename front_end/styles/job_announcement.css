@@ -1,0 +1,216 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background: linear-gradient(to bottom right, #ffcc33, #ff9900);
+}
+
+.container {
+    max-width: 80%;
+    margin: 40px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+header h1 {
+    text-align: center;
+    color: #333;
+    font-size: 2rem;
+}
+
+.progress-container {
+    margin: 20px 0;
+}
+
+.progress-bar {
+    height: 4px; /* Thinner line for a minimal look */
+    background: #f0e68c;
+    border-radius: 5px;
+    position: relative;
+}
+
+.progress-fill {
+    height: 100%;
+    background: #ffa500;
+    border-radius: 5px;
+    width: 33%;
+    transition: width 0.2s ease; /* Faster transition for tabs */
+}
+
+.progress-steps {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px; /* Closer to the progress bar */
+}
+
+.progress-step {
+    font-size: 0.8rem; /* Smaller font for a minimal look */
+    color: #555;
+}
+
+.progress-step.active {
+    color: #ffa500;
+    font-weight: bold;
+}
+
+.form-step {
+    display: none;
+    animation: fadeIn 0.2s ease; /* Reduced animation delay */
+}
+
+.form-step.active {
+    display: block;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+label {
+    font-weight: bold;
+    margin: 10px 0 5px;
+    display: block;
+    color: #555;
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+textarea {
+    resize: none;
+}
+
+button {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    background: #ffa500;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #ff8c00;
+}
+
+.back-btn {
+    background: #bbb;
+    color: white;
+}
+
+.back-btn:hover {
+    background: #999;
+}
+
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #4caf50;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+/* Salary Slider */
+.salary-slider {
+    position: relative;
+    width: 80%; /* Slider is smaller than the form width */
+    margin: 0 auto 20px auto;
+    text-align: center;
+}
+
+.salary-slider input[type="range"] {
+    width: 100%;
+    appearance: none;
+    background: #ddd;
+    height: 3px;
+    border-radius: 5px;
+    outline: none;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    margin-top: 20px; /* Space from the current salary value */
+}
+
+.salary-slider input[type="range"]::-webkit-slider-thumb {
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    background: #ffa500;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.salary-slider input[type="range"]::-webkit-slider-thumb:hover {
+    background: #ff8c00;
+}
+
+.current-salary {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #ffa500;
+    margin-bottom: 10px; /* Place above the slider */
+}
+
+.salary-indicators {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 10px; /* Space from the slider line */
+}
+
+.salary-indicators .start,
+.salary-indicators .end {
+    position: relative;
+}
+
+/* Buttons Alignment */
+.button-group {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    color: white;
+    background: #ffa500;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+button:hover {
+    background: #ff8c00;
+}
+
+.back-btn {
+    background: #bbb;
+    color: white;
+}
+
+.back-btn:hover {
+    background: #999;
+}

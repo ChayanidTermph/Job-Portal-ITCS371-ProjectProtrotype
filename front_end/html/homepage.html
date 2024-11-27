@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Center</title>
+    <link rel="stylesheet" href="/front_end/styles/home.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom right, #ffcc33, #ff9900);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .hero {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)), 
+                            url('https://d3njjcbhbojbot.cloudfront.net/api/utilities/v1/imageproxy/https://images.ctfassets.net/wp1lcwdav1p1/7f76xLx6CDuJeHvtmoY8Ft/44e0a7c2ea3b405965b52f5ea794707a/GettyImages-1434212178.jpg?w=1500&h=680&q=60&fit=fill&f=faces&fm=jpg&fl=progressive&auto=format%2Ccompress&dpr=1&w=1000');
+            background-size: auto;
+            background-repeat: no-repeat;
+            background-position: center top;
+            display: flex;
+            flex-direction: column;
+            min-height: 50vh;
+            padding: 20px;
+            justify-content: center;
+            align-items: center;
+            color: white; /* Ensure text is visible */
+        }
+
+
+
+        /* Header Styles */
+        header {
+            background-color: #ff8800; 
+            color: white;
+            padding: 15px 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        header .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        header .nav-bar {
+            display: flex;
+            gap: 20px;
+        }
+
+        header .nav-bar a {
+            text-decoration: none;
+            color: white;
+            font-size: 1rem;
+            padding: 8px 12px;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        header .nav-bar a:hover {
+            background-color: #896000; /* Slightly darker blue */
+        }
+
+        .hero {
+            text-align: center;
+            padding: 50px 20px;
+            color: #fff;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin: 0;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        .search-bar {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search-bar button {
+            padding: 10px 15px;
+            font-size: 1rem;
+            background: #000000;
+            border: none;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            background: #ffa600;
+        }
+
+        .job-list {
+            margin: 20px auto;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .job-item {
+            padding: 15px;
+            border: 2px solid #ffaa00;
+            border-radius: 8px;
+            background: #fff;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .job-item h3 {
+            margin: 10px 0;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .job-item p {
+            margin: 5px 0;
+            color: #666;
+        }
+
+        .job-item a {
+            text-decoration: none;
+            color: #ffaa00;
+            font-weight: bold;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 20px;
+            background: #ff6600;
+            color: #fff;
+            margin-top: auto;
+        }
+
+       /* Register Section */
+        .register-section {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Register Card */
+        .register-card {
+            position: relative;
+            width: 220px; /* Increased size for better text fit */
+            height: 220px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url(https://images.ctfassets.net/gogvzi849aaj/2IiW95F4QLCqcaDKi3o4Ck/ab9538e4d1293ffd9a121a179c004ff5/Gen_ArticlePackage_3.jpeg?fm=webp&q=50);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, background 0.3s ease;
+            margin-left: 20px;
+        }
+
+        .register-card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Black Overlay for Readability */
+        .register-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* Slightly darker for better contrast */
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Main Text */
+        .main-text {
+            position: relative;
+            z-index: 2;
+            font-size: 1.5rem; /* Increased font size for prominence */
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 10px; /* Space between main text and hover text */
+        }
+
+        /* Hover Text */
+        .hover-text {
+            position: relative;
+            z-index: 2;
+            font-size: 1rem;
+            color: #fff;
+            text-align: center;
+            opacity: 0; /* Initially hidden */
+            transform: translateY(10px); /* Move it slightly downward */
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Show Hover Text on Hover */
+        .register-card:hover .hover-text {
+            opacity: 1;
+            transform: translateY(0); /* Move into position */
+        }
+
+        /* Register Button */
+        .register-btn {
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100%; /* Ensure the button fills the card */
+            width: 100%; /* Ensure the button fills the card */
+        }
+
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <header>
+        <div class="header-container">
+            <a href="homepage.html" class="logo">Job Center</a>
+            <nav class="nav-bar">
+                <a href="homepage.html">Home</a>
+                <a href="login.html">Login</a>
+                <a href="register_applicant.html">Register as Applicant</a>
+                <a href="register_recruiter.html">Register as Recruiter</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Welcome to Job Center</h1>
+        <p>Connecting talent with opportunity.</p>
+
+        <!-- Search Bar -->
+        <div class="search-bar">
+            <!-- <input type="text" placeholder="Search for jobs..." id="search-input"> -->
+            <button onclick="handleSearch()">Search for jobs 🔍</button>
+        </div>
+    </div>
+
+
+    <!-- Register Buttons Section -->
+    <div class="register-section">
+    <div class="register-card">
+        <a href="register_applicant.html" class="register-btn">
+            <div class="main-text">Register as Applicant</div>
+            <div class="hover-text">Find your dream job and grow your career.</div>
+        </a>
+    </div>
+    <div class="register-card">
+        <a href="register_recruiter.html" class="register-btn">
+            <div class="main-text">Register as Recruiter</div>
+            <div class="hover-text">Discover top talent to power your business.</div>
+        </a>
+    </div>
+</div>
+
+    <!-- Footer -->
+    <footer>
+        © 2024 Job Center - Your gateway to amazing opportunities.
+    </footer>
+
+    <script>
+        // Function to handle search functionality
+        function handleSearch() {
+            // const searchQuery = document.getElementById('search-input').value.trim();
+            // if (searchQuery) {
+            //     // window.location.href = `search.html?query=${searchQuery}`;
+                
+            // }
+            window.location.href = "/search.html";
+        }
+        
+    </script>
+</body>
+</html>
+

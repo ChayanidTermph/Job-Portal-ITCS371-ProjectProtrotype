@@ -1,0 +1,79 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    padding: 20px;
+    background-color: #ffa500; /* Orange */
+    color: white;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    margin: 0;
+}
+
+.job-detail {
+    padding: 20px;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+}
+
+.job-detail h2 {
+    color: #ffa500; /* Orange */
+}
+
+/*.back-btn-container{
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #ffa500; 
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}*/
+
+.back-btn-container {
+    text-align: left;
+    margin-top: 20px;
+}
+
+.back-btn {
+    padding: 10px 20px;
+    background-color: #e7c35f;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.back-btn:hover {
+    background-color: #b35b09;
+    transform: translateY(-2px);
+}
+
+.back-btn:focus {
+    outline: none;
+    box-shadow: 0 0 5px #50461c;
+}
+
+.back-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}

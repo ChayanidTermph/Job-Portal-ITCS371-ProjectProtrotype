@@ -1,0 +1,166 @@
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fff4d6; /* Light yellow background */
+    color: #333;
+}
+
+.container {
+    width: 80%;
+    margin: 0 auto;
+}
+
+header {
+    text-align: center;
+    padding: 20px;
+    background-color: #ffa500; /* Orange */
+    color: white;
+    margin-bottom: 20px;
+}
+
+header h1 {
+    margin: 0;
+}
+
+/* Search Section */
+.search-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.search-input {
+    width: 60%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ffcc00; /* Yellow */
+    border-radius: 5px;
+}
+
+.search-btn, .adv-search-btn {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #ffcc00; /* Yellow */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.search-btn:hover, .adv-search-btn:hover {
+    background-color: #ffa500; /* Orange */
+}
+
+/* Advanced Search Section */
+.advanced-search {
+    display: none;
+    text-align: center;
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #fff7e6; /* Lighter yellow */
+    border: 1px solid #ffcc00; /* Yellow border */
+    border-radius: 10px;
+}
+
+.advanced-search label {
+    display: block;
+    margin: 10px 0 5px;
+    font-weight: bold;
+}
+
+.advanced-search input, .advanced-search select {
+    width: 80%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ffcc00; /* Yellow border */
+    border-radius: 5px;
+}
+
+.salary-range, .work-experience {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px; /* Space between inputs and "to" text */
+    margin-bottom: 10px;
+}
+
+.salary-range input, .work-experience input {
+    width: 40%; /* Adjust width of the inputs */
+    padding: 10px;
+    border: 1px solid #ffcc00; /* Yellow border */
+    border-radius: 5px;
+}
+
+.salary-range span, .work-experience span {
+    font-size: 1rem;
+    color: #333;
+}
+
+/* Recommended Jobs Section */
+.recommended-jobs {
+    padding: 20px;
+    background-color: #fff9e0; /* Very light yellow */
+    border: 1px solid #ffcc00;
+    border-radius: 10px;
+}
+
+.job-list {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: white;
+    border: 1px solid #ffcc00; /* Yellow */
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+.job-list h3 {
+    margin: 0 0 10px;
+    color: #ffa500; /* Orange */
+    font-size: 1.5rem;
+}
+
+.job-list p {
+    margin: 5px 0;
+    font-size: 1rem;
+    color: #333;
+}
+
+.apply-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ffa500; /* Orange */
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.apply-btn:hover {
+    background-color: #e68a00; /* Darker orange */
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+.apply-btn:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(255, 165, 0, 0.7); /* Orange glow */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .search-input {
+        width: 90%;
+    }
+
+    .advanced-search input, .advanced-search select {
+        width: 90%;
+    }
+
+    .salary-range input, .work-experience input {
+        width: 45%; /* Adjust width for smaller screens */
+    }
+}

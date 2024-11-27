@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recruiter Dashboard</title>
+    <link rel="stylesheet" href="/front_end/styles/home.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom right, #ffcc33, #ff9900);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 20px;
+            background: #ff8800;
+            color: #fff;
+        }
+
+        nav .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        nav .nav-buttons {
+            display: flex;
+            gap: 15px;
+        }
+
+        nav .nav-buttons a {
+            text-decoration: none;
+            padding: 10px 15px;
+            font-size: 1rem;
+            color: #fff;
+            background: #ffaa00;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        nav .nav-buttons a:hover {
+            background: #ffcc33;
+        }
+
+        .hero {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.5)), 
+                            url('https://i.pinimg.com/1200x/d7/e1/c5/d7e1c5925bdd71e7490b86dcf80c23f8.jpg');
+            background-size: auto;
+            background-repeat: no-repeat;
+            background-position: center top;
+            display: flex;
+            flex-direction: column;
+            min-height: 50vh;
+            padding: 20px;
+            justify-content: center;
+            align-items: center;
+            color: white; /* Ensure text is visible */
+        }
+
+
+        .hero h1 {
+            font-size: 3rem;
+            margin: 0;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-top: 10px;
+        }
+
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+
+        .btn-container a {
+            padding: 15px 25px;
+            font-size: 1.2rem;
+            color: #fff;
+            background: #ffaa00;
+            border: none;
+            border-radius: 10px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .btn-container a:hover {
+            background: #ffcc33;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 20px;
+            background: #ff6600;
+            color: #fff;
+            margin-top: auto;
+        }
+
+        /* Register Section */
+        .register-section {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Register Card */
+        .register-card {
+            position: relative;
+            width: 220px; /* Increased size for better text fit */
+            height: 220px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url(https://i.pinimg.com/736x/11/00/51/11005109898f0b4ab2df8ee277913785.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, background 0.3s ease;
+            margin-left: 20px;
+        }
+
+        .register-card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Black Overlay for Readability */
+        .register-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* Slightly darker for better contrast */
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Main Text */
+        .main-text {
+            position: relative;
+            z-index: 2;
+            font-size: 1.5rem; /* Increased font size for prominence */
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 10px; /* Space between main text and hover text */
+        }
+
+        /* Hover Text */
+        .hover-text {
+            position: relative;
+            z-index: 2;
+            font-size: 1rem;
+            color: #fff;
+            text-align: center;
+            opacity: 0; /* Initially hidden */
+            transform: translateY(10px); /* Move it slightly downward */
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Show Hover Text on Hover */
+        .register-card:hover .hover-text {
+            opacity: 1;
+            transform: translateY(0); /* Move into position */
+        }
+
+        /* Register Button */
+        .register-btn {
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100%; /* Ensure the button fills the card */
+            width: 100%; /* Ensure the button fills the card */
+        }
+    </style>
+</head>
+<body>
+    <script>
+        // Ensure recruiterID is present on page load
+        document.addEventListener("DOMContentLoaded", function () {
+            const recruiterID = localStorage.getItem("recruiterID");
+            if (!recruiterID) {
+                alert("You must be logged in to access this recruiter home page.");
+                window.location.href = "homepage.html"; // Redirect to login or homepage
+            }
+        });
+
+        // Logout functionality
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("logout-button").addEventListener("click", function (event) {
+                event.preventDefault(); // Prevent default link behavior
+                localStorage.removeItem("recruiterID"); // Clear recruiterID from localStorage
+                alert("You have been logged out successfully.");
+                if (!recruiterID) {
+                    window.location.href = "/homepage.html"; // Redirect if not logged in
+            }
+                // window.location.href = "homepage.html"; // Redirect to login or homepage
+            });
+        });
+
+        function logout() {
+            // Clear user-related data from localStorage
+            localStorage.removeItem("applicantID");
+            localStorage.removeItem("recruiterID");
+
+            // Optionally clear session storage if you are using it
+            sessionStorage.clear();
+
+            // Reset navigation links to their default state
+            const homeLink = document.querySelector(".nav-links li a[href='#']");
+            if (homeLink) {
+                homeLink.href = "/homepage.html"; // Reset to default homepage
+            }
+
+            // Redirect to the homepage or login page
+            window.location.href = "/homepage.html";
+        }
+
+        // document.addEventListener("DOMContentLoaded", () => {
+        //     const applicantID = localStorage.getItem("recruiterID");
+
+        //     if (!applicantID) {
+        //         window.location.href = "/homepage.html"; // Redirect if not logged in
+        //     }
+        // });
+    </script>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">Job Center - Recruiter</div>
+        <div class="nav-buttons">
+            <a href="job_announcement.html">Make Job Announcement</a>
+            <a href="#" onclick="logout()" id="logout-button">Logout</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <h1>Welcome, Recruiter!</h1>
+        <p>Your dashboard to post and manage job opportunities.</p>
+
+        <!-- Make Job Announcement Button -->
+        <div class="btn-container">
+            <a href="job_announcement.html">Make Job Announcement</a>
+        </div>
+    </div>
+
+    <!-- Register Buttons Section -->
+    <div class="register-section">
+        <div class="register-card">
+            <a href="" class="register-btn">
+                <div class="main-text">Dashboard</div>
+                <div class="hover-text">Find your dream job and grow your career.</div>
+            </a>
+        </div>
+        <div class="register-card">
+            <a href="" class="register-btn">
+                <div class="main-text">Job Applicantion</div>
+                <div class="hover-text">Discover top talent to power your business.</div>
+            </a>
+        </div>
+        <div class="register-card">
+            <a href="" class="register-btn">
+                <div class="main-text">My Job Announcements</div>
+                <div class="hover-text">Discover top talent to power your business.</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        © 2024 Job Center - Empowering Recruiters.
+    </footer>
+</body>
+</html>
+

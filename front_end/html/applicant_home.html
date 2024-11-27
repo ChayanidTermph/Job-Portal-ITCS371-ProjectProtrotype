@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Applicant Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #ffcc33, #ff9900);
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #ff6600;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            color: white;
+        }
+
+        nav .logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+        }
+
+        nav .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 15px;
+        }
+
+        nav .nav-links li {
+            margin: 0;
+        }
+
+        nav .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1rem;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        nav .nav-links a:hover {
+            background: #ffcc33;
+        }
+
+        .welcome {
+        text-align: center;
+        max-width: 1200px;
+        margin-bottom: 30px;
+        background-image: url(https://i.pinimg.com/736x/f6/70/4e/f6704e6a7b22333c8b31f12c8dc1b90f.jpg);
+        background-size: 120%; /* Use the original scale of the image */
+        background-repeat: no-repeat; /* Prevents the image from repeating */
+        background-position: center top; /* Align the image to the center and top */
+        display: flex;
+        flex-direction: column;
+        min-height: 50vh; /* Adjust height to fit part of the viewport */
+        padding: 20px; /* Add padding for text or elements */
+        justify-content: center; /* Vertically center any content inside */
+        align-items: center; /* Horizontally center any content inside */
+        position: relative; /* Required for pseudo-element positioning */
+        z-index: 1; /* Ensure content is above the overlay */
+        color: white; /* Ensure text is visible on dark background */
+        }
+
+        .welcome::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5); /* Black overlay with 50% opacity */
+            z-index: -1; /* Place the overlay behind the content */
+        }
+
+        .welcome h1 {
+            font-size: 3.5rem;
+            margin: 0;
+            color: #fff;
+        }
+
+        .welcome p {
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+
+
+        .search-bar {
+            display: flex;
+            gap: 10px;
+        }
+
+        .search-bar input {
+            flex: 1;
+            padding: 10px;
+            border: 2px solid #ffa500;
+            border-radius: 5px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-bar button {
+            padding: 10px 15px;
+            background: #ffa500;
+            color: white;
+            border: none;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .search-bar button:hover {
+            background: #ffcc33;
+        }
+
+        .recommended-jobs h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .job-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .job-card {
+            background: white;
+            padding: 15px;
+            border: 2px solid #ffa500;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        .job-card h3 {
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+
+        .job-card p {
+            margin: 5px 0;
+            color: #555;
+        }
+
+        .job-card .view-details {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 15px;
+            background: #ffa500;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        .job-card .view-details:hover {
+            background: #ffcc33;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background: #ff6600;
+            color: white;
+            margin-top: auto;
+        }
+
+        /* Register Section */
+        .register-section {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Register Card */
+        .register-card {
+            position: relative;
+            width: 220px; /* Increased size for better text fit */
+            height: 220px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url(https://i.pinimg.com/736x/11/00/51/11005109898f0b4ab2df8ee277913785.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: transform 0.3s ease, background 0.3s ease;
+            margin-left: 20px;
+        }
+
+        .register-card:hover {
+            transform: translateY(-10px);
+        }
+
+        /* Black Overlay for Readability */
+        .register-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* Slightly darker for better contrast */
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Main Text */
+        .main-text {
+            position: relative;
+            z-index: 2;
+            font-size: 1.5rem; /* Increased font size for prominence */
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 10px; /* Space between main text and hover text */
+        }
+
+        /* Hover Text */
+        .hover-text {
+            position: relative;
+            z-index: 2;
+            font-size: 1rem;
+            color: #fff;
+            text-align: center;
+            opacity: 0; /* Initially hidden */
+            transform: translateY(10px); /* Move it slightly downward */
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        /* Show Hover Text on Hover */
+        .register-card:hover .hover-text {
+            opacity: 1;
+            transform: translateY(0); /* Move into position */
+        }
+
+        /* Register Button */
+        .register-btn {
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            height: 100%; /* Ensure the button fills the card */
+            width: 100%; /* Ensure the button fills the card */
+        }
+
+        .search-bar {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .search-bar button {
+            padding: 10px 15px;
+            font-size: 1rem;
+            background: #000000be;
+            border: none;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Navigation Bar -->
+        <nav>
+            <div class="logo">Job Center</div>
+            <ul class="nav-links">
+                <li><a href="#">Home</a></li>
+                <li><a href="#">My Applications</a></li>
+                <li><a href="#">Profile</a></li>
+                <li><a href="javascript:void(0);" id="logout-button" onclick="logout()">Logout</a></li>
+            </ul>
+        </nav>
+
+        <!-- Welcome Section -->
+        <section class="welcome">
+            <h1>Welcome, Applicant!</h1>
+            <p>Your gateway to amazing opportunities.</p>
+
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <!-- <input type="text" placeholder="Search for jobs..." id="search-input"> -->
+                <button onclick="handleSearch()">Search for jobs 🔍</button>
+            </div>
+        </section>
+
+
+
+        <!-- Register Buttons Section -->
+        <div class="register-section">
+        <div class="register-card">
+            <a href="" class="register-btn">
+                <div class="main-text">Applications</div>
+                <div class="hover-text">Find your dream job and grow your career.</div>
+            </a>
+        </div>
+        <div class="register-card">
+            <a href="" class="register-btn">
+                <div class="main-text">Resumes</div>
+                <div class="hover-text">Discover top talent to power your business.</div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 Job Center. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // Function to handle search functionality
+        function handleSearch() {
+            // const searchQuery = document.getElementById('search-input').value.trim();
+            // if (searchQuery) {
+            //     // window.location.href = `search.html?query=${searchQuery}`;
+                
+            // }
+            window.location.href = "/search.html";
+        }
+        document.addEventListener("DOMContentLoaded", function () {
+            const applicantID = localStorage.getItem("applicantID");
+
+            // If no applicantID is found, redirect to the homepage
+            if (!applicantID) {
+                alert("You must be logged in to access this applicant home page.");
+                window.location.href = "/homepage.html"; // Redirect to login or homepage
+            }
+        });
+
+        
+        document.addEventListener("DOMContentLoaded", function () {
+            const logoutButton = document.getElementById("logout-button");
+
+            if (logoutButton) {
+                logoutButton.addEventListener("click", function (event) {
+                    event.preventDefault(); // Prevent default link behavior
+
+                    // Clear user-related data from localStorage
+                    const applicantID = localStorage.getItem("applicantID");
+                    if (applicantID) {
+                        localStorage.removeItem("applicantID");
+                        alert("You have been logged out successfully.");
+                    } else {
+                        alert("No active session found.");
+                    }
+
+                    // Clear session storage (if applicable)
+                    sessionStorage.clear();
+
+                    // Redirect to the homepage
+                    window.location.href = "/homepage.html";
+                });
+            }
+        });
+
+
+        function logout() {
+            // Clear user-related data from localStorage
+            localStorage.removeItem("applicantID");
+            localStorage.removeItem("recruiterID");
+
+            // Optionally clear session storage if you are using it
+            sessionStorage.clear();
+
+            // Reset navigation links to their default state
+            const homeLink = document.querySelector(".nav-links li a[href='#']");
+            if (homeLink) {
+                homeLink.href = "/homepage.html"; // Reset to default homepage
+            }
+
+            // Redirect to the homepage or login page
+            window.location.href = "/homepage.html";
+        }
+    </script>
+</body>
+</html>

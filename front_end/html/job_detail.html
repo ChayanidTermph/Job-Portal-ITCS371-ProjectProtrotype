@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Detail</title>
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to bottom right, #fceabb, #f8b500);
+            color: #333;
+        }
+
+        /* Container Styling */
+        .container {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Job Title Section */
+        .job-title-section {
+            text-align: center;
+            background: #f8b500;
+            padding: 30px 20px;
+            border-radius: 15px 15px 0 0;
+            color: white;
+        }
+
+        .job-title-section h1 {
+            margin: 0;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .job-title-section p {
+            font-size: 1.2rem;
+            margin: 10px 0 0;
+            color: #ffe8b2;
+        }
+
+        /* Job Details Section */
+        .job-details {
+            padding: 20px;
+        }
+
+        .detail-item {
+            margin-bottom: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 1px solid #f1f1f1;
+            padding-bottom: 10px;
+        }
+
+        .detail-item strong {
+            font-weight: bold;
+            color: #444;
+        }
+
+        .detail-item p {
+            margin: 0;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        /* Description Section */
+        .description {
+            margin-top: 20px;
+            padding: 15px;
+            background: #fff4e0;
+            border-radius: 10px;
+            border: 1px solid #f8b500;
+        }
+
+        .description h2 {
+            margin-top: 0;
+            font-size: 1.5rem;
+            color: #f8b500;
+        }
+
+        .description p {
+            line-height: 1.6;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        /* Apply Button */
+        .apply-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: #f8b500;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-top: 30px;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .apply-btn:hover {
+            background: #e6a200;
+            transform: translateY(-2px);
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            padding: 10px 15px;
+            background: #ffaa00;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .back-btn:hover {
+            background: #ffcc33;
+        }
+
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .detail-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .apply-btn {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button class="back-btn" onclick="goBackToSearch()">Back to Search</button>
+        <!-- Job Title Section -->
+        <div class="job-title-section">
+            <h1 id="job-title">Loading...</h1>
+            <p id="job-category">Category: Loading...</p>
+        </div>
+
+        <!-- Job Details Section -->
+        <div id="job-details" class="job-details"></div>
+
+        <!-- Apply Button -->
+        <a href="#" id="apply-link" class="apply-btn" disabled>Apply Now</a>
+
+    </div>
+
+    <script>
+        async function fetchJobDetail(jobId) {
+            const jobTitleElement = document.getElementById("job-title");
+            const jobCategoryElement = document.getElementById("job-category");
+            const jobDetailsElement = document.getElementById("job-details");
+            const applyLink = document.getElementById("apply-link");
+
+            try {
+                const response = await fetch(`/api/job-detail/${jobId}`);
+                if (!response.ok) {
+                    jobTitleElement.textContent = "Job Not Found";
+                    jobDetailsElement.innerHTML = `<p>We couldn't find the job you're looking for.</p>`;
+                    return;
+                }
+
+                const job = await response.json();
+
+                // Populate the job detail page
+                jobTitleElement.textContent = job.j_title || "No Title";
+                jobCategoryElement.textContent = `Category: ${job.category || "N/A"}`;
+
+                jobDetailsElement.innerHTML = `
+                    <div class="detail-item">
+                        <strong>Salary:</strong>
+                        <p>฿${job.j_salary ? job.j_salary.toLocaleString() : "N/A"}</p>
+                    </div>
+                    <div class="detail-item">
+                        <strong>Location:</strong>
+                        <p>${job.j_location || "N/A"}</p>
+                    </div>
+                    <div class="detail-item">
+                        <strong>Job Type:</strong>
+                        <p>${job.j_type || "N/A"}</p>
+                    </div>
+                    <div class="detail-item">
+                        <strong>Work Experience:</strong>
+                        <p>${job.j_workexp || "N/A"} years</p>
+                    </div>
+                    <div class="description">
+                        <strong>Educational Qualification:</strong>
+                        <p>${job.j_requirement || "N/A"}</p>
+                    </div>
+                    <div class="description">
+                        <h2>Job Description</h2>
+                        <p>${job.j_description || "No description provided."}</p>
+                    </div>
+                `;
+
+                // applyLink.href = `/apply/${jobId}`; // Adjust as needed for your application flow
+            } catch (error) {
+                console.error("Error fetching job details:", error);
+                jobTitleElement.textContent = "Error";
+                jobDetailsElement.innerHTML = `<p>There was an error fetching the job details. Please try again later.</p>`;
+            }
+        }
+
+        // Get job ID from URL parameters
+        const params = new URLSearchParams(window.location.search);
+        const jobId = params.get("id");
+
+        if (jobId && jobId !== "undefined") {
+            fetchJobDetail(jobId);
+        } else {
+            document.getElementById("job-title").textContent = "Invalid Job ID";
+            document.getElementById("job-details").innerHTML = `<p>No job ID provided in the URL.</p>`;
+        }
+
+        function goBackToSearch() {
+            // Redirect to the search page
+            window.location.href = "/search.html"; // Update with the correct path for your search page
+        }
+
+    </script>
+</body>
+</html>
+
+
+
+
+<!-- 
+1
+Job Title: Senior Software Engineer
+Salary: 50,000 - 70,000 THB/month
+Type: Full-Time
+Location: Bangkok, Thailand
+Educational Qualification: Bachelor's Degree in Computer Science
+Recruiter ID: R0000001
+Work Experience: 5+ years in software development
+
+2
+Job Title: Marketing Manager
+Salary: 80,000 - 100,000 THB/month
+Type: Full-Time
+Location: Chiang Mai, Thailand
+Educational Qualification: Master's Degree in Business Administration
+Recruiter ID: R0000002
+Work Experience: 8 years in marketing and communications
+
+3
+Job Title: Graphic Designer
+Salary: 30,000 - 40,000 THB/month
+Type: Full-Time
+Location: Pattaya, Thailand
+Educational Qualification: Bachelor's Degree in Graphic Design
+Recruiter ID: R0000003
+Work Experience: 2-4 years in graphic design
+
+4
+Job Title: HR Specialist
+Salary: 40,000 - 50,000 THB/month
+Type: Full-Time
+Location: Rayong, Thailand
+Educational Qualification: Bachelor's Degree in Human Resource Management
+Recruiter ID: R0000004
+Work Experience: 3 years in human resources
+
+5
+Job Title: Financial Analyst
+Salary: 60,000 - 80,000 THB/month
+Type: Full-Time
+Location: Bangkok, Thailand
+Educational Qualification: Bachelor's Degree in Finance
+Recruiter ID: R0000005
+Work Experience: 4-6 years in financial analysis
+
+6
+Job Title: Web Developer
+Salary: 40,000 - 60,000 THB/month
+Type: Full-Time
+Location: Khon Kaen, Thailand
+Educational Qualification: Bachelor's Degree in Computer Science
+Recruiter ID: R0000007
+Work Experience: 3+ years in web development
+
+7
+Job Title: Customer Support Executive
+Salary: 25,000 - 35,000 THB/month
+Type: Full-Time
+Location: Nakhon Ratchasima, Thailand
+Educational Qualification: Bachelor's Degree in Business Administration
+Recruiter ID: REQ87654
+Work Experience: 1-2 years in customer service
+
+8
+Job Title: Sales Executive
+Salary: 30,000 - 50,000 THB/month (plus commission)
+Type: Full-Time
+Location: Phuket, Thailand
+Educational Qualification: Bachelor's Degree in Marketing
+Recruiter ID: REQ45321
+Work Experience: 2+ years in sales
+
+9
+Job Title: Operations Manager
+Salary: 70,000 - 90,000 THB/month
+Type: Full-Time
+Location: Ayutthaya, Thailand
+Educational Qualification: Master's Degree in Supply Chain Management
+Recruiter ID: REQ78901
+Work Experience: 6+ years in operations management
+
+10.
+Job Title: Content Writer
+Salary: 25,000 - 35,000 THB/month
+Type: Full-Time
+Location: Bangkok, Thailand
+Educational Qualification: Bachelor's Degree in Communication Arts
+Recruiter ID: REQ65432
+Work Experience: 2+ years in content creation and writing-->
