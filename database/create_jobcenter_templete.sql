@@ -6,7 +6,7 @@ CREATE DATABASE IF NOT EXISTS jobcenter;
 USE jobcenter;
 
 -- Disable foreign key checks temporarily
-SET FOREIGN_KEY_CHECKS = 0;
+-- SET FOREIGN_KEY_CHECKS = 0;
 
 -- Recruiter Part
 CREATE TABLE recruiter_creditcard (
@@ -100,7 +100,7 @@ CREATE TABLE applicant_personaldetail (
     FOREIGN KEY (applicantID) REFERENCES applicant(applicantID)
 );
 -- Re-enable foreign key checks
-SET FOREIGN_KEY_CHECKS = 1;
+-- SET FOREIGN_KEY_CHECKS = 1;
 
 -- USE jobcenter;
 
