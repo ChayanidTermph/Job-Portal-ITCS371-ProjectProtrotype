@@ -22,27 +22,27 @@ const db = mysql.createConnection({
   // database: "jobcenter",
 });
 
-db.connect((err) => {
-    if (err) {
-        console.error('Error connecting to MySQL:', err.message);
-        return;
-    }
-    console.log('Connected to MySQL.');
+// db.connect((err) => {
+//     if (err) {
+//         console.error('Error connecting to MySQL:', err.message);
+//         return;
+//     }
+//     console.log('Connected to MySQL.');
 
-    // Read the SQL file
-    const sql = fs.readFileSync('../database/create_jobcenter_templete.sql', 'utf8');
+//     // Read the SQL file
+//     const sql = fs.readFileSync('../database/create_jobcenter_templete.sql', 'utf8');
 
-    // Execute the SQL file content
-    db.query(sql, (err, results) => {
-        if (err) {
-            console.error('Error executing SQL file:', err.message);
-            db.end();
-            return;
-        }
-        console.log('Database and tables created successfully.');
-        db.end();
-    });
-});
+//     // Execute the SQL file content
+//     db.query(sql, (err, results) => {
+//         if (err) {
+//             console.error('Error executing SQL file:', err.message);
+//             db.end();
+//             return;
+//         }
+//         console.log('Database and tables created successfully.');
+//         db.end();
+//     });
+// });
 
 // Serve the homepage at `/`
 app.get("/", (req, res) => {
