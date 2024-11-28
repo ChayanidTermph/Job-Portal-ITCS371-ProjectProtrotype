@@ -21,9 +21,18 @@ const db = mysql.createConnection({
   database: "jobcenter",
 });
 
-db.connect((err) => {
-  if (err) throw err;
-  console.log("Connected to MySQL database.");
+// Read the SQL file
+const sql = fs.readFileSync('../database/create_jobcenter_templete.sql', 'utf8');
+
+// Execute the SQL file content
+connection.query(sql, (err, results) => {
+    if (err) {
+        console.error('Error executing SQL file:', err.message);
+        connection.end();
+        return;
+    }
+    console.log('Database and tables created successfully.');
+    connection.end();
 });
 
 // Serve the homepage at `/`
