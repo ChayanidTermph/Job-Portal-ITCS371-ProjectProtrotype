@@ -1,12 +1,12 @@
 -- Drop and Create the Database (Run separately if needed)
--- DROP DATABASE IF EXISTS jobcenter;
+DROP DATABASE IF EXISTS jobcenter;
 CREATE DATABASE IF NOT EXISTS jobcenter;
 
 -- Use the new database
 USE jobcenter;
 
 -- Disable foreign key checks temporarily
--- SET FOREIGN_KEY_CHECKS = 0;
+SET FOREIGN_KEY_CHECKS = 0;
 
 -- Recruiter Part
 CREATE TABLE recruiter_creditcard (
@@ -100,9 +100,9 @@ CREATE TABLE applicant_personaldetail (
     FOREIGN KEY (applicantID) REFERENCES applicant(applicantID)
 );
 -- Re-enable foreign key checks
--- SET FOREIGN_KEY_CHECKS = 1;
+SET FOREIGN_KEY_CHECKS = 1;
 
--- USE jobcenter;
+USE jobcenter;
 
 INSERT INTO recruiter_creditcard (r_card_no, r_holderName, r_expireMonth, r_expireYear, r_ccv) VALUES
 ('7810516827936574', 'Jiranan Srisawat', '08', '2029', '847'),
