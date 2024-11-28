@@ -1,3 +1,6 @@
+ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'ching180647';
+FLUSH PRIVILEGES;
+
 -- Drop and Create the Database (Run separately if needed)
 DROP DATABASE IF EXISTS jobcenter;
 CREATE DATABASE IF NOT EXISTS jobcenter;
