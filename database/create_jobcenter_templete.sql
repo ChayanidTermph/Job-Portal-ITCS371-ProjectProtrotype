@@ -1,7 +1,7 @@
 -- Temporarily disable foreign key checks
 SET FOREIGN_KEY_CHECKS = 0;
 -- ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'ching180647';
-FLUSH PRIVILEGES;
+-- FLUSH PRIVILEGES;
 
 
 -- Drop Tables in Dependency Order
