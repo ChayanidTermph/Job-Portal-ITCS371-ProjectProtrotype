@@ -19,10 +19,9 @@ const db = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
   password: "ching180647",
-  database: "jobcenter",
+  // database: "jobcenter",
 });
 
-// Read the SQL file and execute it to create the database and tables
 db.connect((err) => {
     if (err) {
         console.error('Error connecting to MySQL:', err.message);
