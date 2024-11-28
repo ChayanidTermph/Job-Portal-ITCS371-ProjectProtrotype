@@ -99,6 +99,8 @@ CREATE TABLE applicant_personaldetail (
     PRIMARY KEY (a_pdID),
     FOREIGN KEY (applicantID) REFERENCES applicant(applicantID)
 );
+-- Re-enable foreign key checks
+SET FOREIGN_KEY_CHECKS = 1;
 
 USE jobcenter;
 
