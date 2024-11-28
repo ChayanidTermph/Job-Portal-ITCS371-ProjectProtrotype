@@ -1,6 +1,6 @@
 -- Drop and Create the Database (Run separately if needed)
-DROP DATABASE IF EXISTS jobcenter;
-CREATE DATABASE jobcenter;
+-- DROP DATABASE IF EXISTS jobcenter;
+CREATE DATABASE IF NOT EXISTS jobcenter;
 
 -- Use the new database
 USE jobcenter;
