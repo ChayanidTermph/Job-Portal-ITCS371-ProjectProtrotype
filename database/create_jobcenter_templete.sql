@@ -1,29 +1,15 @@
--- Temporarily disable foreign key checks
+-- Disable foreign key checks to avoid dependency issues during table drops
 SET FOREIGN_KEY_CHECKS = 0;
--- ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY 'ching180647';
--- FLUSH PRIVILEGES;
 
-
--- Drop Tables in Dependency Order
--- DROP TABLE IF EXISTS job_announcement;
--- DROP TABLE IF EXISTS recruiter_companyprofile;
--- DROP TABLE IF EXISTS recruiter_personaldetail;
--- DROP TABLE IF EXISTS recruiter_creditcard;
--- DROP TABLE IF EXISTS recruiter;
-
--- DROP TABLE IF EXISTS applicant_personaldetail;
--- DROP TABLE IF EXISTS applicant_creditcard;
--- DROP TABLE IF EXISTS applicant;
-
--- Re-enable foreign key checks
-SET FOREIGN_KEY_CHECKS = 1;
-
--- Drop Database if Exists
+-- Drop Database if it exists (optional, only if you want to reset everything)
 DROP DATABASE IF EXISTS jobcenter;
 
--- Create Database
-CREATE DATABASE jobcenter;
+-- Create the Database
+CREATE DATABASE IF NOT EXISTS jobcenter;
 USE jobcenter;
+
+-- Re-enable foreign key checks after database creation
+SET FOREIGN_KEY_CHECKS = 1;
 
 -- Recruiter Part
 CREATE TABLE recruiter_creditcard (
