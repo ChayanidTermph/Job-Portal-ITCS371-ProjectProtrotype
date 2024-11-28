@@ -3,6 +3,7 @@ const mysql = require("mysql");
 const bcrypt = require("bcrypt");
 const bodyParser = require("body-parser");
 const path = require("path");
+const fs = require('fs'); // Import the 'fs' module for file system operations
 
 // Create the Express app
 const app = express();
@@ -21,18 +22,27 @@ const db = mysql.createConnection({
   database: "jobcenter",
 });
 
-// Read the SQL file
-const sql = fs.readFileSync('../database/create_jobcenter_templete.sql', 'utf8');
-
-// Execute the SQL file content
-connection.query(sql, (err, results) => {
+// Connect to MySQL
+connection.connect((err) => {
     if (err) {
-        console.error('Error executing SQL file:', err.message);
-        connection.end();
+        console.error('Error connecting to MySQL:', err.message);
         return;
     }
-    console.log('Database and tables created successfully.');
-    connection.end();
+    console.log('Connected to MySQL.');
+
+    // Read the SQL file
+    const sql = fs.readFileSync('../database/create_jobcenter_templete.sql', 'utf8');
+
+    // Execute the SQL file content
+    connection.query(sql, (err, results) => {
+        if (err) {
+            console.error('Error executing SQL file:', err.message);
+            connection.end();
+            return;
+        }
+        console.log('Database and tables created successfully.');
+        connection.end();
+    });
 });
 
 // Serve the homepage at `/`
