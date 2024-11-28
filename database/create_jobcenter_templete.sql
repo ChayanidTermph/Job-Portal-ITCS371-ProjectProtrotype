@@ -102,7 +102,7 @@ CREATE TABLE applicant_personaldetail (
 -- Re-enable foreign key checks
 SET FOREIGN_KEY_CHECKS = 1;
 
-USE jobcenter;
+-- USE jobcenter;
 
 INSERT INTO recruiter_creditcard (r_card_no, r_holderName, r_expireMonth, r_expireYear, r_ccv) VALUES
 ('7810516827936574', 'Jiranan Srisawat', '08', '2029', '847'),
