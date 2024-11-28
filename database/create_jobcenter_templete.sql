@@ -1,15 +1,12 @@
--- Disable foreign key checks to avoid dependency issues during table drops
-SET FOREIGN_KEY_CHECKS = 0;
-
--- Drop Database if it exists (optional, only if you want to reset everything)
+-- Drop and Create the Database (Run separately if needed)
 DROP DATABASE IF EXISTS jobcenter;
+CREATE DATABASE jobcenter;
 
--- Create the Database
-CREATE DATABASE IF NOT EXISTS jobcenter;
+-- Use the new database
 USE jobcenter;
 
--- Re-enable foreign key checks after database creation
-SET FOREIGN_KEY_CHECKS = 1;
+-- Disable foreign key checks temporarily
+SET FOREIGN_KEY_CHECKS = 0;
 
 -- Recruiter Part
 CREATE TABLE recruiter_creditcard (
