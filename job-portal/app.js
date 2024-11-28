@@ -19,7 +19,7 @@ const db = mysql.createConnection({
   host: "127.0.0.1",
   user: "root",
   password: "ching180647",
-  // database: "jobcenter",
+  database: "jobcenter",
 });
 
 db.connect((err) => {
