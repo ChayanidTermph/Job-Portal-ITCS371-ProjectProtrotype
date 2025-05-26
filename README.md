@@ -1,6 +1,6 @@
 # ✅ Job Portal – ITCS371 Project
 
-This project repository is created for submitting coursework in **ITCS371 – Introduction to Software Engineering** at the **Faculty of Information and Communication Technology, Mahidol University**.
+This project repository is created for coding coursework in **ITCS371 – Introduction to Software Engineering** at the **Faculty of Information and Communication Technology, Mahidol University**.
 
 ## 📌 Project Overview
 
