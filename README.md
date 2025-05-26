@@ -52,3 +52,6 @@ Name: Chayanid Termphaiboon, Thitapa Singtho, Papopporn Thongnarintr, Supakorn W
 
 GitHub: ChayanidTermph, ClionDroid, PeakPapopporn, qpamm, PawatSuk
 
+## Further Detail
+https://github.com/ICT-Mahidol/2024-ITCS371-3-Group2
+
