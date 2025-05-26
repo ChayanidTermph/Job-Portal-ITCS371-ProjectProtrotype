@@ -50,7 +50,7 @@ Semester: 1 / 2024
 ## 👩‍💻 Developer
 Name: Chayanid Termphaiboon, Thitapa Singtho, Papopporn Thongnarintr, Supakorn Wathanyusakul, Pawat Sukkasem
 
-GitHub: ChayanidTermph, ClionDroid, PeakPapopporn, qpamm, PawatSuk
+GitHub: ChayanidTermph, ClionDroid, PeakPapopporn, SupakornWath, PawatSuk
 
 ## Further Detail
 It is included diagrams and reports submitted in each phase.
