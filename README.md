@@ -40,14 +40,14 @@ Expected result on the terminal:
 5. Open your brownser and access to http://127.0.0.1:5000.
 6. Enjoy our website!
 
-🧑‍🎓 Course Information
+## 🧑‍🎓 Course Information
 Course: ITCS371 – Introduction to Software Engineering
 
 Faculty: Faculty of ICT, Mahidol University
 
 Semester: 1 / 2024
 
-👩‍💻 Developer
+## 👩‍💻 Developer
 Name: Chayanid Termphaiboon, Thitapa Singtho, Papopporn Thongnarintr, Supakorn Wathanyusakul, Pawat Sukkasem
 
 GitHub: ChayanidTermph, ClionDroid, PeakPapopporn, qpamm, PawatSuk
